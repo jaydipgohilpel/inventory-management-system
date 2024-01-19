@@ -34,7 +34,7 @@ async function handleLogin(req, res) {
     const user = await userModel.findOne({ email: req.body.email })
     if (user) {
       const isMatch = await comparePassword(req.body.password, user.password);
-      if (!isMatch) apiResponse.unauthorizedResponse(res, "Invalid Email or Password");
+      if (!isMatch) return apiResponse.unauthorizedResponse(res, "Invalid Email or Password");
       // res.status(401).json({ error: 'Invalid Email or Password', code: 200, success: false, });
 
       let result = user.toObject();
