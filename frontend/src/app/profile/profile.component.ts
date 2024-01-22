@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  constructor(private router: Router,) { }
+  constructor(private router: Router, private authService: AuthService) { }
   user: any = {};
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user') || '');
@@ -16,6 +17,6 @@ export class ProfileComponent {
   logOut() {
     localStorage.removeItem('token');
     this.router.navigate(['/log-in']);
-    // this.authService.setIsAuthentic(false);
+    this.authService.setIsAuthentic(false);
   }
 }

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,13 +13,13 @@ import { NotificationService } from '../services/notification.service';
 export class LoginComponent {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private userService: UserService,
+  constructor(private fb: FormBuilder, private userService: UserService, private authService: AuthService,
     private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit() {
     if (localStorage.getItem('token')) {
-      this.router.navigate(['/dashboard']);
-      // this.authService.setIsAuthentic(true);
+      this.router.navigate(['/home']);
+      this.authService.setIsAuthentic(true);
     }
     this.initForm();
   }
@@ -41,9 +42,9 @@ export class LoginComponent {
           email: user?.data?.email,
           name: user?.data?.name
         }));
-        // this.authService.setIsAuthentic(true);
+        this.authService.setIsAuthentic(true);
         this.initForm();
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/home']);
       },
         (error) => {
           this.notificationService.showError(error?.error?.message);

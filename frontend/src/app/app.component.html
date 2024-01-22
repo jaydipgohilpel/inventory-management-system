@@ -1,1 +1,5 @@
-<app-dashboard></app-dashboard>
+<app-dashboard *ngIf="isLogin; else outlet"> </app-dashboard>
+
+<ng-template #outlet>
+  <router-outlet></router-outlet>
+</ng-template>

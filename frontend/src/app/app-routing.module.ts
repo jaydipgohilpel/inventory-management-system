@@ -5,11 +5,14 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NotFoundComponent } from './not-found-component/not-found-component.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: ProfileComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard], },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard], },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], },
   { path: 'sign-up', component: SignupComponent },
   { path: 'log-in', component: LoginComponent },
   { path: '**', component: NotFoundComponent },

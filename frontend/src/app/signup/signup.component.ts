@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -15,12 +16,13 @@ export class SignupComponent {
   constructor(private fb: FormBuilder,
     private userService: UserService,
     public notificationService: NotificationService,
+    private authService: AuthService,
     private router: Router) { }
 
   ngOnInit() {
     if (localStorage.getItem('token')) {
-      this.router.navigate(['/dashboard']);
-      // this.authService.setIsAuthentic(true);
+      this.router.navigate(['/home']);
+      this.authService.setIsAuthentic(true);
     }
     this.initForm();
   }
