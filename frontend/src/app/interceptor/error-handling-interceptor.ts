@@ -1,4 +1,3 @@
-
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -8,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { NotificationService } from './notification.service';
+import { NotificationService } from '../services/notification.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -21,10 +20,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       .pipe(
         retry(0),
         catchError((error: HttpErrorResponse) => {
-          var message = ''
+          var message = '';
           if (!error.status && error.statusText === "Unknown Error")
             message = 'Network Error occurred'
-          else message = error?.error?.message
+          else message = error?.error?.message;
           this.notificationService.showError(message);
           return throwError(() => message);
         })

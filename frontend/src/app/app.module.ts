@@ -1,3 +1,4 @@
+import { AuthInterceptor } from './interceptor/auth-interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -13,7 +14,8 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NotFoundComponent } from './not-found-component/not-found-component.component';
 import { HomeComponent } from './home/home.component';
-import { HttpErrorInterceptor } from './services/Interceptor.service';
+import { HttpErrorInterceptor } from './interceptor/error-handling-interceptor';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { HttpErrorInterceptor } from './services/Interceptor.service';
     ProfileComponent,
     NotFoundComponent,
     HomeComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,11 +38,8 @@ import { HttpErrorInterceptor } from './services/Interceptor.service';
     ToastrModule.forRoot(),
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
