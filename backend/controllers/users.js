@@ -57,9 +57,15 @@ function comparePassword(reqPassword, userPassword) {
   return bcrypt.compare(reqPassword, userPassword);
 }
 
+async function handleGetList(req, res) {
+  let users = await userModel.find({}).select('-password');
+  apiResponse.successResponseWithData(res, "fetch users Success.", users);
+}
+
 
 module.exports =
 {
   handleCreate,
-  handleLogin
+  handleLogin,
+  handleGetList
 }
