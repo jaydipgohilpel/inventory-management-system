@@ -45,13 +45,9 @@ export class LoginComponent {
         this.authService.setIsAuthentic(true);
         this.initForm();
         this.router.navigate(['/home']);
-      },
-        (error) => {
-          this.notificationService.showError(error?.error?.message);
-        }
-      )
+      })
     } catch (error: any) {
-      this.notificationService.showError(error?.error?.message || error?.error?.message);
+      this.notificationService.showError('Something went wrong:' + error);
     }
   }
 }

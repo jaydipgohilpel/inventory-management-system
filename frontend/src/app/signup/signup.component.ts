@@ -42,13 +42,9 @@ export class SignupComponent {
         if (!user.data) return;
         this.notificationService.showSuccess('Registration Successfully!');
         this.initForm();
-      },
-        (error) => {
-          this.notificationService.showError(error?.error?.message);
-        }
-      );
+      });
     } catch (error: any) {
-      this.notificationService.showError(error?.error?.message || error?.error?.message);
+      this.notificationService.showError('Something went wrong:' + error);
     }
   }
 }
