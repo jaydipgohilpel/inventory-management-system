@@ -19,4 +19,8 @@ export class UserService {
   login(payload: UserPayload): Observable<any> {
     return this.http.post(`users/login`, payload);
   }
+
+  getUserList(): Observable<any> {
+    return this.http.get(`users/list`);
+  }
 }
