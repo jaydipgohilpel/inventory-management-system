@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator');
+const { UserRoles } = require('../enum/enums');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -18,6 +19,12 @@ const userSchema = new mongoose.Schema({
         minlength: [8, 'Password must be at least 8 characters long'],
         required: true
     },
+    role: {
+        type: String,
+        enum: Object.values(UserRoles),
+        default: UserRoles.BASIC_USER,
+    },
+
 })
 
 module.exports = mongoose.model('users', userSchema)
