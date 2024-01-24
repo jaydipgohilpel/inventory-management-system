@@ -4,7 +4,7 @@ const UserRoles = {
   CLERK: 'clerk',
   AUDITOR: 'auditor',
   CUSTOMER_SERVICE: 'customer_service',
-  BASIC_USER: 'basic_user',
+  BASIC_USER: 'user',
 };
 
 module.exports = { UserRoles };
