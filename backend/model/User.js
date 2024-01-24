@@ -28,6 +28,15 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    created_at: {
+        type: Date,
+        default: Date.now,
+    },
+
+    updated_at: {
+        type: Date,
+        default: Date.now,
+    },
 })
 
 module.exports = mongoose.model('users', userSchema)

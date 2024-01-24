@@ -59,13 +59,18 @@ function comparePassword(reqPassword, userPassword) {
 }
 
 async function handleGetList(req, res) {
-  let users = await userModel.find({}).select('-password');
-  apiResponse.successResponseWithData(res, "fetch users Success.", users);
+  try {
+    let users = await userModel.find({}).select('-password');
+    apiResponse.successResponseWithData(res, "fetch users Success.", users);
+  } catch (error) {
+    return apiResponse.validationErrorWithData(res, error, { success: false });
+  }
 }
 
 async function handleUpdateUserRoleAndStatus(req, res) {
   try {
     const objectId = new mongoose.Types.ObjectId(req.params.id);
+    req.body.updated_at = new Date();
     const result = await userModel.updateOne(
       { '_id': objectId },
       { $set: req.body }
