@@ -11,4 +11,10 @@ export interface UserList {
   _id: String,
   name: String,
   email: String,
+  is_active?: boolean;
+}
+
+export interface UserUpdate {
+  is_active?: Boolean,
+  role: UserRoles
 }

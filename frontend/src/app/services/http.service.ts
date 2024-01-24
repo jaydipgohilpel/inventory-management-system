@@ -30,4 +30,9 @@ export class HttpService {
   delete(id: string | number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
+
+  patch(path: string, body?: any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${path}`, body);
+  }
+
 }

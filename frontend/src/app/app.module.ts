@@ -1,7 +1,6 @@
 import { AuthInterceptor } from './interceptor/auth-interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
@@ -16,6 +15,7 @@ import { NotFoundComponent } from './not-found-component/not-found-component.com
 import { HomeComponent } from './home/home.component';
 import { HttpErrorInterceptor } from './interceptor/error-handling-interceptor';
 import { UsersComponent } from './users/users.component';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +36,7 @@ import { UsersComponent } from './users/users.component';
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    MaterialModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },

@@ -21,8 +21,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         retry(0),
         catchError((error: HttpErrorResponse) => {
           var message = '';
-          if (!error.status && error.statusText === "Unknown Error")
+          if (error.statusText === "Unknown Error" || error.statusText === "Bad Request")
             message = 'Network Error occurred'
+          else if (error.statusText === "Not Found") message = 'Url Not Found';
           else message = error?.error?.message;
           this.notificationService.showError(message);
           return throwError(() => message);
