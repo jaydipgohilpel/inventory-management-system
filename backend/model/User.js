@@ -24,7 +24,10 @@ const userSchema = new mongoose.Schema({
         enum: Object.values(UserRoles),
         default: UserRoles.BASIC_USER,
     },
-
+    is_active: {
+        type: Boolean,
+        default: true,
+    },
 })
 
 module.exports = mongoose.model('users', userSchema)

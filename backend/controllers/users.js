@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { secret } = require('../config/secretKey');
 const apiResponse = require("../helpers/apiResponse");
+const mongoose = require('mongoose');
 
 async function handleCreate(req, res) {
   try {
@@ -62,10 +63,26 @@ async function handleGetList(req, res) {
   apiResponse.successResponseWithData(res, "fetch users Success.", users);
 }
 
+async function handleUpdateUserRoleAndStatus(req, res) {
+  try {
+    const objectId = new mongoose.Types.ObjectId(req.params.id);
+    const result = await userModel.updateOne(
+      { '_id': objectId },
+      { $set: req.body }
+    );
+    if (result.modifiedCount && result.acknowledged) {
+      return apiResponse.successResponseWithData(res, "User Update Success.", result);
+    }
+    else return apiResponse.validationErrorWithData(res, "No User Update", { success: false });
+  } catch (error) {
+    return apiResponse.validationErrorWithData(res, error, { success: false });
+  }
+}
 
 module.exports =
 {
   handleCreate,
   handleLogin,
-  handleGetList
+  handleGetList,
+  handleUpdateUserRoleAndStatus
 }
