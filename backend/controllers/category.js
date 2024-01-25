@@ -19,7 +19,7 @@ async function handleCreate(req, res) {
     }
     else return apiResponse.validationErrorWithData(res, "Category name not provided.", "Invalid Data");
   } catch (error) {
-    return apiResponse.validationErrorWithData(res, error, { success: false });
+    return apiResponse.validationErrorWithData(res, error.message, { success: false });
   }
 }
 
@@ -34,13 +34,19 @@ async function handleDelete(req, res) {
     } else
       return apiResponse.validationErrorWithData(res, "Category ID not provided.", "Invalid Data");
   } catch (error) {
-    return apiResponse.validationErrorWithData(res, error, { success: false });
+    return apiResponse.validationErrorWithData(res, error.message, { success: false });
   }
 }
 
 async function handleUpdate(req, res) {
   try {
     if (req.params.id) {
+      const existingCategory = await categoryModel.findOne({
+        category_name: new RegExp('^' + req.body.category_name + '$', 'i')
+      });
+
+      if (existingCategory) return apiResponse.validationErrorWithData(res, "Category already exists.", { success: false });
+
       const objectId = new mongoose.Types.ObjectId(req.params.id);
       req.body.updated_at = new Date();
       const result = await categoryModel.updateOne(
@@ -52,7 +58,21 @@ async function handleUpdate(req, res) {
     } else
       return apiResponse.validationErrorWithData(res, "Category ID not provided.", "Invalid Data");
   } catch (error) {
-    return apiResponse.validationErrorWithData(res, error, { success: false });
+
+    if (error.code === 11000 && error.keyPattern && error.keyValue) {
+      return apiResponse.validationErrorWithData(res, "Category with this name already exists.", { success: false });
+    } else {
+      return apiResponse.validationErrorWithData(res, error.message, { success: false });
+    }
+  }
+}
+
+async function handleGetList(req, res) {
+  try {
+    let categories = await categoryModel.find({}).sort({ created_at: -1 });
+    apiResponse.successResponseWithData(res, "fetch category Success.", categories);
+  } catch (error) {
+    return apiResponse.validationErrorWithData(res, error.message, { success: false });
   }
 }
 
@@ -60,5 +80,6 @@ module.exports =
 {
   handleCreate,
   handleDelete,
-  handleUpdate
+  handleUpdate,
+  handleGetList
 }

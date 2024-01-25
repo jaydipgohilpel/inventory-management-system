@@ -24,7 +24,7 @@ async function handleCreate(req, res) {
       // res.status(200).json({ data: result, code: 200, success: true });
     }
   } catch (error) {
-    return apiResponse.validationErrorWithData(res, error, { success: false });
+    return apiResponse.validationErrorWithData(res, error.message, { success: false });
     // res.status(400).send({ error: error, success: false });
   }
 
@@ -63,7 +63,7 @@ async function handleGetList(req, res) {
     let users = await userModel.find({}).select('-password');
     apiResponse.successResponseWithData(res, "fetch users Success.", users);
   } catch (error) {
-    return apiResponse.validationErrorWithData(res, error, { success: false });
+    return apiResponse.validationErrorWithData(res, error.message, { success: false });
   }
 }
 
@@ -80,7 +80,7 @@ async function handleUpdateUserRoleAndStatus(req, res) {
     }
     else return apiResponse.validationErrorWithData(res, "No User Update", { success: false });
   } catch (error) {
-    return apiResponse.validationErrorWithData(res, error, { success: false });
+    return apiResponse.validationErrorWithData(res, error.message, { success: false });
   }
 }
 
