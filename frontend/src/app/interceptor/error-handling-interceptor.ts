@@ -21,7 +21,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         retry(0),
         catchError((error: HttpErrorResponse) => {
           var message = '';
-          if (error.statusText === "Unknown Error" || error.statusText === "Bad Request")
+          if (error.statusText === "Unknown Error")
             message = 'Network Error occurred'
           else if (error.statusText === "Not Found") message = 'Url Not Found';
           else message = error?.error?.message;

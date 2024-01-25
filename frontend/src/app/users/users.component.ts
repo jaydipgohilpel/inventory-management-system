@@ -1,11 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
-import { UserList } from '../interface/user.interface';
+import { UserList, UserRoles } from '../interface/user.interface';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SharedService } from '../services/shared.service';
-import { UserRoles } from '../interface/user-roles.enum';
 
 @Component({
   selector: 'app-users',
@@ -53,7 +52,7 @@ export class UsersComponent {
         payload,
       ).subscribe((user) => {
         if (!user.data || !user?.data?.modifiedCount) return;
-        this.notificationService.showInfo('User Update Successfully!');
+        this.notificationService.showSuccess('User Update Successfully!');
       })
     } catch (error: any) {
       this.notificationService.showError('Something went wrong:' + error);

@@ -16,6 +16,8 @@ import { HomeComponent } from './home/home.component';
 import { HttpErrorInterceptor } from './interceptor/error-handling-interceptor';
 import { UsersComponent } from './users/users.component';
 import { MaterialModule } from './material/material.module';
+import { CategoryComponent } from './category/category.component';
+import { DeleteDialogComponent } from 'src/shared/common/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { MaterialModule } from './material/material.module';
     NotFoundComponent,
     HomeComponent,
     UsersComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ import { MaterialModule } from './material/material.module';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MaterialModule,
+    DeleteDialogComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },

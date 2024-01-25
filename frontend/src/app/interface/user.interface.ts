@@ -1,4 +1,3 @@
-import { UserRoles } from "./user-roles.enum";
 
 export interface UserPayload {
   name?: string,
@@ -17,4 +16,13 @@ export interface UserList {
 export interface UserUpdate {
   is_active?: Boolean,
   role: UserRoles
+}
+
+export enum UserRoles {
+  ADMIN = 'admin',
+  MANAGER = 'manager',
+  CLERK = 'clerk',
+  AUDITOR = 'auditor',
+  CUSTOMER_SERVICE = 'customer_service',
+  USER = 'user',
 }
