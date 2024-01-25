@@ -32,6 +32,16 @@
           <a [routerLink]="'/users'" class="dashboard-nav-dropdown-item">All</a>
         </div>
       </div>
+      <div class="dashboard-nav-dropdown">
+        <a class="dashboard-nav-item dashboard-nav-dropdown-toggle"
+          ><i class="fa fa-users" aria-hidden="true"></i> Products
+        </a>
+        <div class="dashboard-nav-dropdown-menu">
+          <a [routerLink]="'/category'" class="dashboard-nav-dropdown-item"
+            >Category</a
+          >
+        </div>
+      </div>
       <a [routerLink]="'/profile'" class="dashboard-nav-item"
         ><i class="fa fa-user" aria-hidden="true"></i> Profile
       </a>
