@@ -34,9 +34,12 @@
       </div>
       <div class="dashboard-nav-dropdown">
         <a class="dashboard-nav-item dashboard-nav-dropdown-toggle"
-          ><i class="fa fa-users" aria-hidden="true"></i> Products
+          ><i class="fa fa-users" aria-hidden="true"></i> Product
         </a>
         <div class="dashboard-nav-dropdown-menu">
+          <a [routerLink]="'/product'" class="dashboard-nav-dropdown-item"
+            >Products</a
+          >
           <a [routerLink]="'/category'" class="dashboard-nav-dropdown-item"
             >Category</a
           >

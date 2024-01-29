@@ -18,6 +18,7 @@ import { UsersComponent } from './users/users.component';
 import { MaterialModule } from './material/material.module';
 import { CategoryComponent } from './category/category.component';
 import { DeleteDialogComponent } from 'src/shared/common/delete-dialog/delete-dialog.component';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { DeleteDialogComponent } from 'src/shared/common/delete-dialog/delete-di
     HomeComponent,
     UsersComponent,
     CategoryComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,
