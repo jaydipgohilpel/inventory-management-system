@@ -7,6 +7,11 @@ const categorySchema = new mongoose.Schema({
         trim: true,
         unique: true,
     },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
+        required: true,
+    },
     created_at: {
         type: Date,
         default: Date.now,

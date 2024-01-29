@@ -11,6 +11,7 @@ async function handleCreate(req, res) {
 
       if (existingCategory) return apiResponse.validationErrorWithData(res, "Category already exists.", { success: false });
       else {
+        req.body.user_id = req.user._id;
         const newCategory = new categoryModel(req.body);
         let result = await newCategory.save();
         result = result.toObject();
