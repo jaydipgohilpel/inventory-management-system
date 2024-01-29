@@ -63,8 +63,19 @@ async function handleUpdate(req, res) {
 
 async function handleGetList(req, res) {
   try {
-    let products = await productModel.find({}).sort({ created_at: -1 });
-    apiResponse.successResponseWithData(res, "fetch Product Success.", products);
+    let products = await productModel.find({}).sort({ created_at: -1 })
+      .populate('category_id', 'category_name');
+
+    const modifiedProducts = products.map(product => {
+      const { category_id, ...rest } = product._doc;
+      return {
+        ...rest,
+        category_name: product.category_id.category_name,
+        category_id: product.category_id._id,
+      };
+    });
+
+    apiResponse.successResponseWithData(res, "fetch Product Success.", modifiedProducts);
   } catch (error) {
     return apiResponse.validationErrorWithData(res, error.message, { success: false });
   }

@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
     },
     category_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'categories',
+        ref: 'Category',
         required: true,
     },
     cost_price: {
@@ -46,7 +46,7 @@ const productSchema = new mongoose.Schema({
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'Users', // Use the model name, not the collection name
         required: true,
     },
     created_at: {
@@ -59,4 +59,4 @@ const productSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('products', productSchema);
+module.exports = mongoose.model('Products', productSchema);
