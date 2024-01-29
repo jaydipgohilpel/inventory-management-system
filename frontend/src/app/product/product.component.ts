@@ -79,8 +79,6 @@ export class ProductComponent {
       this.productsService.getCategoryList().subscribe((category) => {
         if (!category.data) return;
         this.categories = category.data;
-        if (!this.categories.length)
-          this.notificationService.showWarning('No category found, please Add New category!');
       });
     } catch (error: any) {
       this.notificationService.showError('Something went wrong:' + error);
@@ -94,11 +92,8 @@ export class ProductComponent {
 
 
   openAddProductDialog(element: null | Product = null): void {
-    if (!this.categories.length) {
+    if (!this.categories.length)
       this.notificationService.showWarning('No category found, please Add New category!');
-      this.router.navigate(['/category']);
-      return;
-    }
     const dialogRef = this.dialog.open(ProductDialog, {
       data: { isUpdate: element ? true : false, data: element, categories: this.categories },
     });
