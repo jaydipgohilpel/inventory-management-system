@@ -34,6 +34,10 @@
                   formControlName="category_id"
                   placeholder="Select Category"
                 >
+                  <mat-option [value]="" (click)="addCategory()">
+                    <mat-icon>add</mat-icon>
+                    Add category
+                  </mat-option>
                   <mat-option
                     *ngFor="let category of categories"
                     [value]="category._id"
