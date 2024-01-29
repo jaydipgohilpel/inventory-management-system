@@ -22,6 +22,9 @@ import { Category, Product, ProductDialogData } from '../interface/products.inte
 import { NotificationService } from '../services/notification.service';
 import { ProductsService } from '../services/products.service';
 import { SharedService } from '../services/shared.service';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -37,21 +40,25 @@ export class ProductComponent {
 
   dataSource = new MatTableDataSource<Product>(this.products);
   selectedProduct: Product | null = null;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private productsService: ProductsService,
     public notificationService: NotificationService,
     private sharedService: SharedService,
     public dialog: MatDialog,
+    private router: Router,
   ) {
     this.sharedService.setIsAuthentic('Products');
   }
 
   ngOnInit(): void {
     this.getProductList();
-    this.sharedService.deleteDialogResult$.subscribe(show => {
-      if (show.component === this.constructor.name && show.confirm) this.deleteProduct();
-    })
+    this.sharedService.deleteDialogResult$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(show => {
+        if (show.component === this.constructor.name && show.confirm) this.deleteProduct();
+      })
     this.getCategoryList();
   }
 
@@ -72,6 +79,8 @@ export class ProductComponent {
       this.productsService.getCategoryList().subscribe((category) => {
         if (!category.data) return;
         this.categories = category.data;
+        if (!this.categories.length)
+          this.notificationService.showWarning('No category found, please Add New category!');
       });
     } catch (error: any) {
       this.notificationService.showError('Something went wrong:' + error);
@@ -85,6 +94,11 @@ export class ProductComponent {
 
 
   openAddProductDialog(element: null | Product = null): void {
+    if (!this.categories.length) {
+      this.notificationService.showWarning('No category found, please Add New category!');
+      this.router.navigate(['/category']);
+      return;
+    }
     const dialogRef = this.dialog.open(ProductDialog, {
       data: { isUpdate: element ? true : false, data: element, categories: this.categories },
     });
@@ -117,6 +131,8 @@ export class ProductComponent {
             result.form.value,
           ).subscribe((product) => {
             if (!product.data) return;
+            const category = this.categories.find(category => category._id === result?.form?.value?.category_id);
+            product.data.category_name = category?.category_name || '';
             this.products.unshift(product.data);
             this.loadData();
             this.notificationService.showSuccess('Product Added Successfully!');
@@ -151,6 +167,11 @@ export class ProductComponent {
       this.notificationService.showError('Something went wrong:' + error);
     }
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
 
 NgModule({
@@ -175,7 +196,8 @@ NgModule({
     ReactiveFormsModule,
     MatSelectModule,
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    RouterModule
   ],
 })
 export class ProductDialog {
@@ -185,6 +207,8 @@ export class ProductDialog {
   constructor(
     public dialogRef: MatDialogRef<ProductDialog>,
     private fb: FormBuilder,
+    private router: Router,
+    public notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: ProductDialogData,
   ) {
     if (!data.isUpdate) {
@@ -219,6 +243,11 @@ export class ProductDialog {
   onSaveClick(): void {
     this.data.form = this.productForm;
     this.dialogRef.close(this.data);
+  }
+
+  public addCategory() {
+    this.router.navigate(['/category']);
+    this.onNoClick();
   }
 
 }

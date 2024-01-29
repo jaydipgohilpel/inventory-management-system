@@ -40,6 +40,13 @@
                   >
                     {{ category.category_name }}
                   </mat-option>
+                  <mat-option
+                    *ngIf="!categories.length"
+                    [value]=""
+                    (click)="addCategory()"
+                  >
+                    No category found, please Add category
+                  </mat-option>
                 </mat-select>
                 <mat-error
                   *ngIf="productForm.get('category_id')?.hasError('required')"

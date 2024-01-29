@@ -19,6 +19,7 @@ import { Category, DialogData } from '../interface/products.interface';
 import { NotificationService } from '../services/notification.service';
 import { ProductsService } from '../services/products.service';
 import { SharedService } from '../services/shared.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-category',
@@ -31,6 +32,7 @@ export class CategoryComponent {
   displayedColumns: string[] = ['no', 'category_name', "actions"];
   dataSource = new MatTableDataSource<Category>(this.categories);
   selectedCategory: Category | null = null;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private productsService: ProductsService,
@@ -43,9 +45,11 @@ export class CategoryComponent {
 
   ngOnInit(): void {
     this.getCategoryList();
-    this.sharedService.deleteDialogResult$.subscribe(show => {
-      if (show.component === this.constructor.name && show.confirm) this.deleteCategory();
-    })
+    this.sharedService.deleteDialogResult$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(show => {
+        if (show.component === this.constructor.name && show.confirm) this.deleteCategory();
+      })
   }
 
   getCategoryList(): void {
@@ -124,6 +128,11 @@ export class CategoryComponent {
     } catch (error: any) {
       this.notificationService.showError('Something went wrong:' + error);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 
