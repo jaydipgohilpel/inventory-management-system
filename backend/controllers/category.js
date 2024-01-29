@@ -1,6 +1,7 @@
 const categoryModel = require("../model/Category");
 const apiResponse = require("../helpers/apiResponse");
 const mongoose = require('mongoose');
+const productModel = require("../model/Product");
 
 async function handleCreate(req, res) {
   try {
@@ -27,11 +28,16 @@ async function handleCreate(req, res) {
 async function handleDelete(req, res) {
   try {
     if (req.params.id) {
-      const result = await categoryModel.deleteOne({ _id: req.params.id });
+      const isCategoryUsed = await productModel.exists({ category_id: req.params.id });
+      if (isCategoryUsed) {
+        const numberOfProducts = await productModel.countDocuments({ category_id: req.params.id });
+        const errorMessage = `Cannot delete the category. It is currently associated with ${numberOfProducts} product${numberOfProducts !== 1 ? 's' : ''}.`;
+        throw new Error(errorMessage);
+      }
 
-      if (!result.deletedCount)
-        return apiResponse.validationErrorWithData(res, "Category not found or Error ocurred while deleting category.", { success: false });
-      return apiResponse.successResponseWithData(res, "Category deleted successfully.", result);
+      const result = await categoryModel.deleteOne({ _id: req.params.id });
+      return apiResponse.successResponseWithData(res, 'Category deleted successfully.', result);
+
     } else
       return apiResponse.validationErrorWithData(res, "Category ID not provided.", "Invalid Data");
   } catch (error) {

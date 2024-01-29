@@ -70,8 +70,8 @@ async function handleGetList(req, res) {
       const { category_id, ...rest } = product._doc;
       return {
         ...rest,
-        category_name: product.category_id.category_name,
-        category_id: product.category_id._id,
+        category_name: product.category_id?.category_name,
+        category_id: product.category_id?._id,
       };
     });
 
