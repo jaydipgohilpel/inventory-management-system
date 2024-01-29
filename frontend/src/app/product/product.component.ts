@@ -52,7 +52,7 @@ export class ProductComponent {
     this.sharedService.deleteDialogResult$.subscribe(show => {
       if (show.component === this.constructor.name && show.confirm) this.deleteProduct();
     })
-    this.getCategoryList()
+    this.getCategoryList();
   }
 
   getProductList(): void {
