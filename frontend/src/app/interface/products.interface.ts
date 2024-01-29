@@ -15,6 +15,7 @@ export interface Product {
   product_name: String;
   description: String,
   category_id: String,
+  category_name: String,
   cost_price: Number,
   selling_price: Number,
   quantity_in_stock: Number,

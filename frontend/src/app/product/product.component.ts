@@ -32,7 +32,7 @@ export class ProductComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   products: Product[] = [];
   categories: Category[] = [];
-  displayedColumns: string[] = ['no', 'product_name', "description", 'category_id', 'cost_price', 'selling_price',
+  displayedColumns: string[] = ['no', 'product_name', "description", 'category_name', 'cost_price', 'selling_price',
     'quantity_in_stock', 'reorder_point', 'actions'];
 
   dataSource = new MatTableDataSource<Product>(this.products);
@@ -101,9 +101,11 @@ export class ProductComponent {
 
             const index = this.products.findIndex(product => product._id == element?._id);
             if (index !== -1) {
+              const category = this.categories.find(category => category._id === result?.form?.value?.category_id);
               this.products[index] = {
                 ...this.products[index],
-                ...result.form.value
+                ...result.form.value,
+                category_name: category?.category_name || ''
               };
               this.loadData();
             }
