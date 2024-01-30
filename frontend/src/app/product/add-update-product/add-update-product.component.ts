@@ -11,7 +11,7 @@ import { IDialog } from 'src/shared/common/i-dialog/i-dialog.component';
   templateUrl: './add-update-product.component.html',
   styleUrls: ['./add-update-product.component.css']
 })
-export class AddUpdateProductComponent implements OnInit {
+export class AddUpdateProductComponent {
   productForm: FormGroup;
   categories: Category[] = [];
 
@@ -45,9 +45,6 @@ export class AddUpdateProductComponent implements OnInit {
       });
     }
     this.categories = this.data?.data?.categories;
-  }
-
-  ngOnInit(): void {
   }
 
   onNoClick(): void {
