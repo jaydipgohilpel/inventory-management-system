@@ -29,5 +29,6 @@ export interface ProductDialogData {
   isUpdate: boolean;
   categories: Category[];
   form: FormGroup;
-  data: Product;
+  data: any;
+  component: any;
 }
