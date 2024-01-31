@@ -19,6 +19,7 @@ var orderRouter = require('./routes/order');
 var orderDetailRouter = require('./routes/orderdetail');
 var WarehouseRouter = require('./routes/warehouse');
 var auditTrailRouter = require('./routes/audittrail');
+var barcodeRouter = require('./routes/barcode');
 
 var app = express();
 
@@ -52,6 +53,7 @@ app.use('/order', orderRouter);
 app.use('/orderdetail', orderDetailRouter);
 app.use('/warehouse', WarehouseRouter);
 app.use('/audittrail', auditTrailRouter);
+app.use('/barcode', barcodeRouter);
 
 // throw 404 if URL not found
 app.all("*", function (req, res) {
