@@ -87,6 +87,8 @@ export class ProductComponent {
 
   public openAddProductDialog(element: Product | null, title = 'Add Product'): void {
     this.selectedProduct = element;
+    if (!this.categories.length)
+      this.notificationService.showWarning('No category found, please Add New category!');
     if (element)
       this.iDialogService.setDialogShow(true, title, AddUpdateProductComponent, true, { categories: this.categories, element });
     else
@@ -94,9 +96,6 @@ export class ProductComponent {
   }
 
   openSaveChanges(element: null | Product = null, result: IDialogData | any = null): void {
-
-    if (!this.categories.length)
-      this.notificationService.showWarning('No category found, please Add New category!');
 
     if (!result || !result.form.valid) return;
     try {
@@ -162,6 +161,7 @@ export class ProductComponent {
   }
 
   ngOnDestroy(): void {
+    this.iDialogService.setDialogResult(null);
     this.destroy$.next();
     this.destroy$.complete();
   }
