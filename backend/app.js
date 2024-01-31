@@ -17,6 +17,7 @@ var customerRouter = require('./routes/customer');
 var supplierRouter = require('./routes/supplier');
 var orderRouter = require('./routes/order');
 var orderdetailRouter = require('./routes/orderdetail');
+var WarehouseRouter = require('./routes/warehouse');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use('/customer', customerRouter);
 app.use('/supplier', supplierRouter);
 app.use('/order', orderRouter);
 app.use('/orderdetail', orderdetailRouter);
+app.use('/warehouse', WarehouseRouter);
 
 // throw 404 if URL not found
 app.all("*", function (req, res) {
