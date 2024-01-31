@@ -16,8 +16,9 @@ var productRouter = require('./routes/product');
 var customerRouter = require('./routes/customer');
 var supplierRouter = require('./routes/supplier');
 var orderRouter = require('./routes/order');
-var orderdetailRouter = require('./routes/orderdetail');
+var orderDetailRouter = require('./routes/orderdetail');
 var WarehouseRouter = require('./routes/warehouse');
+var auditTrailRouter = require('./routes/audittrail');
 
 var app = express();
 
@@ -48,8 +49,9 @@ app.use('/product', productRouter);
 app.use('/customer', customerRouter);
 app.use('/supplier', supplierRouter);
 app.use('/order', orderRouter);
-app.use('/orderdetail', orderdetailRouter);
+app.use('/orderdetail', orderDetailRouter);
 app.use('/warehouse', WarehouseRouter);
+app.use('/audittrail', auditTrailRouter);
 
 // throw 404 if URL not found
 app.all("*", function (req, res) {
