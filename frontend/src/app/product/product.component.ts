@@ -1,30 +1,17 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, NgModule, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, ViewChild } from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
   MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogModule,
-  MatDialogRef,
-  MatDialogTitle
 } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
-import { Category, Product, ProductDialogData } from '../interface/products.interface';
+import { Category, Product } from '../interface/products.interface';
 import { NotificationService } from '../services/notification.service';
 import { ProductsService } from '../services/products.service';
 import { SharedService } from '../services/shared.service';
-import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { IDialogService } from '../services/i-dialog.service';
+import { AddUpdateProductComponent } from './add-update-product/add-update-product.component';
+import { IDialogData } from '../interface/shared.interface';
 
 @Component({
   selector: 'app-product',
@@ -47,7 +34,7 @@ export class ProductComponent {
     public notificationService: NotificationService,
     private sharedService: SharedService,
     public dialog: MatDialog,
-    private router: Router,
+    private iDialogService: IDialogService
   ) {
     this.sharedService.setIsAuthentic('Products');
   }
@@ -58,6 +45,14 @@ export class ProductComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(show => {
         if (show.component === this.constructor.name && show.confirm) this.deleteProduct();
+      })
+
+    this.iDialogService.dialogResult$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: IDialogData | null) => {
+        if (!result) return;
+        if (result?.component == "AddUpdateProductComponent")
+          this.openSaveChanges(result.isUpdate ? this.selectedProduct : null, result);
       })
     this.getCategoryList();
   }
@@ -90,53 +85,55 @@ export class ProductComponent {
     this.dataSource.paginator = this.paginator;
   }
 
-
-  openAddProductDialog(element: null | Product = null): void {
+  public openAddProductDialog(element: Product | null, title = 'Add Product'): void {
+    this.selectedProduct = element;
     if (!this.categories.length)
       this.notificationService.showWarning('No category found, please Add New category!');
-    const dialogRef = this.dialog.open(ProductDialog, {
-      data: { isUpdate: element ? true : false, data: element, categories: this.categories },
-    });
+    if (element)
+      this.iDialogService.setDialogShow(true, title, AddUpdateProductComponent, true, { categories: this.categories, element });
+    else
+      this.iDialogService.setDialogShow(true, title, AddUpdateProductComponent, false, { categories: this.categories });
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result || !result.form.valid) return;
-      try {
-        if (element) {
-          this.productsService.updateProduct(
-            element._id as string,
-            result.form.value,
-          ).subscribe((product) => {
-            if (!product.data || !product?.data?.modifiedCount) return;
+  openSaveChanges(element: null | Product = null, result: IDialogData | any = null): void {
 
-            const index = this.products.findIndex(product => product._id == element?._id);
-            if (index !== -1) {
-              const category = this.categories.find(category => category._id === result?.form?.value?.category_id);
-              this.products[index] = {
-                ...this.products[index],
-                ...result.form.value,
-                category_name: category?.category_name || ''
-              };
-              this.loadData();
-            }
-            this.notificationService.showSuccess('Product Updated Successfully!');
-          })
-        }
-        else {
-          this.productsService.addProduct(
-            result.form.value,
-          ).subscribe((product) => {
-            if (!product.data) return;
+    if (!result || !result.form.valid) return;
+    try {
+      if (element) {
+        this.productsService.updateProduct(
+          element._id as string,
+          result.form.value,
+        ).subscribe((product) => {
+          if (!product.data || !product?.data?.modifiedCount) return;
+
+          const index = this.products.findIndex(product => product._id == element?._id);
+          if (index !== -1) {
             const category = this.categories.find(category => category._id === result?.form?.value?.category_id);
-            product.data.category_name = category?.category_name || '';
-            this.products.unshift(product.data);
+            this.products[index] = {
+              ...this.products[index],
+              ...result.form.value,
+              category_name: category?.category_name || ''
+            };
             this.loadData();
-            this.notificationService.showSuccess('Product Added Successfully!');
-          })
-        }
-      } catch (error: any) {
-        this.notificationService.showError('Something went wrong:' + error);
+          }
+          this.notificationService.showSuccess('Product Updated Successfully!');
+        })
       }
-    });
+      else {
+        this.productsService.addProduct(
+          result.form.value,
+        ).subscribe((product) => {
+          if (!product.data) return;
+          const category = this.categories.find(category => category._id === result?.form?.value?.category_id);
+          product.data.category_name = category?.category_name || '';
+          this.products.unshift(product.data);
+          this.loadData();
+          this.notificationService.showSuccess('Product Added Successfully!');
+        })
+      }
+    } catch (error: any) {
+      this.notificationService.showError('Something went wrong:' + error);
+    }
   }
 
   public openDeleteModel(element: Product): void {
@@ -164,85 +161,8 @@ export class ProductComponent {
   }
 
   ngOnDestroy(): void {
+    this.iDialogService.setDialogResult(null);
     this.destroy$.next();
     this.destroy$.complete();
   }
-}
-
-NgModule({
-  declarations: [
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogModule,
-  ]
-})
-@Component({
-  selector: 'product-dialog',
-  templateUrl: 'product-dialog.html',
-  styleUrls: ['./product.component.scss'],
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    CommonModule,
-    MatIconModule,
-    RouterModule
-  ],
-})
-export class ProductDialog {
-  productForm: FormGroup;
-  categories: Category[] = [];
-
-  constructor(
-    public dialogRef: MatDialogRef<ProductDialog>,
-    private fb: FormBuilder,
-    private router: Router,
-    public notificationService: NotificationService,
-    @Inject(MAT_DIALOG_DATA) public data: ProductDialogData,
-  ) {
-    if (!data.isUpdate) {
-      this.productForm = this.fb.group({
-        product_name: ['', [Validators.required, Validators.maxLength(30)]],
-        description: [''],
-        category_id: ['', Validators.required],
-        cost_price: ['', Validators.required],
-        selling_price: ['', Validators.required],
-        quantity_in_stock: ['', Validators.required],
-        reorder_point: [''],
-      });
-    } else {
-      const formValue = this.data.data;
-      this.productForm = this.fb.group({
-        product_name: [formValue.product_name, [Validators.required, Validators.maxLength(30)]],
-        description: [formValue.description],
-        category_id: [formValue.category_id, Validators.required],
-        cost_price: [formValue.cost_price, Validators.required],
-        selling_price: [formValue.selling_price, Validators.required],
-        quantity_in_stock: [formValue.quantity_in_stock, Validators.required],
-        reorder_point: [formValue.reorder_point],
-      });
-    }
-    this.categories = this.data?.categories;
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close(null);
-  }
-
-  onSaveClick(): void {
-    this.data.form = this.productForm;
-    this.dialogRef.close(this.data);
-  }
-
-  public addCategory() {
-    this.router.navigate(['/category']);
-    this.onNoClick();
-  }
-
 }
