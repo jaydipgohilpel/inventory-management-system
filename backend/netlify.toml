@@ -3,3 +3,5 @@ package = "netlify-plugin-express"
 
 [plugins.inputs]
 functionPath = "functions"
+[build.environment]
+NETLIFY_NEXT_PLUGIN_SKIP = "true"
