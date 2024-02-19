@@ -32,7 +32,7 @@ const corsOptions = {
 };
 
 // Enable CORS for all routes
-app.use(cors(corsOptions));
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
