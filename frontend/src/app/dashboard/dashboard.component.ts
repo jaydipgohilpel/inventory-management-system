@@ -6,7 +6,7 @@ import { SharedService } from '../services/shared.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss','./dashboard.scss']
 })
 export class DashboardComponent {
   @ViewChild('dashboardNav', { static: false }) dashboardNav!: ElementRef;

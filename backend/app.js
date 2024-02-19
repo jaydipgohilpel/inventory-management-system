@@ -6,6 +6,9 @@ var logger = require('morgan');
 const apiResponse = require("./helpers/apiResponse");
 const cors = require('cors');
 
+// var router = express.Router();
+// const serverless = require("serverless-http");
+
 require('./config/config');
 require('mongoose')
 
@@ -58,6 +61,14 @@ app.use('/audittrail', auditTrailRouter);
 app.use('/barcode', barcodeRouter);
 app.use('/alerts', alertsRouter);
 
+
+// router.get('/', (req, res) => {
+//   res.json({
+//     'hello world': 'hi!'
+//   })
+// })
+
+// router.use('/.netlify/functions/api', router);
 // throw 404 if URL not found
 app.all("*", function (req, res) {
   return apiResponse.notFoundResponse(res, "Page not found");
