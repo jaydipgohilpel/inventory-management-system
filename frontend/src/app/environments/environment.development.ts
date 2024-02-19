@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://backend--inventory-management-system1.netlify.app'
+  apiBaseUrl: 'https://inventory-management-system-fz6d.onrender.com'
 };
