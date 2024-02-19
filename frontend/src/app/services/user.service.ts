@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserPayload } from '../interface/user.interface';
+import { UserPayload, UserUpdate } from '../interface/user.interface';
 import { HttpService } from './http.service';
 import { environment } from '../environments/environment';
 
@@ -18,5 +18,13 @@ export class UserService {
 
   login(payload: UserPayload): Observable<any> {
     return this.http.post(`users/login`, payload);
+  }
+
+  getUserList(): Observable<any> {
+    return this.http.get(`users/list`);
+  }
+
+  updateUserRoleAndStatus(id: String, body: UserUpdate): Observable<any> {
+    return this.http.patch(`users/update/${id}`, body);
   }
 }

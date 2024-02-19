@@ -24,45 +24,29 @@
       <!-- <a [routerLink]="'/dashboard'" class="dashboard-nav-item active"
         ><i class="fa fa-tachometer"></i> dashboard </a
       > -->
-      <a href="#" class="dashboard-nav-item"
-        ><i class="fas fa-file-upload"></i> Upload
-      </a>
       <div class="dashboard-nav-dropdown">
-        <a href="" class="dashboard-nav-item dashboard-nav-dropdown-toggle"
-          ><i class="fas fa-photo-video"></i> Media
-        </a>
-        <div class="dashboard-nav-dropdown-menu">
-          <a href="#" class="dashboard-nav-dropdown-item">All</a
-          ><a href="#" class="dashboard-nav-dropdown-item">Recent</a
-          ><a href="#" class="dashboard-nav-dropdown-item">Images</a
-          ><a href="#" class="dashboard-nav-dropdown-item">Video</a>
-        </div>
-      </div>
-      <div class="dashboard-nav-dropdown">
-        <a href="" class="dashboard-nav-item dashboard-nav-dropdown-toggle"
+        <a class="dashboard-nav-item dashboard-nav-dropdown-toggle"
           ><i class="fa fa-users" aria-hidden="true"></i> Users
         </a>
         <div class="dashboard-nav-dropdown-menu">
-          <a href="#" class="dashboard-nav-dropdown-item">All</a
-          ><a href="#" class="dashboard-nav-dropdown-item">Subscribed</a
-          ><a href="#" class="dashboard-nav-dropdown-item">Non-subscribed</a
-          ><a href="#" class="dashboard-nav-dropdown-item">Banned</a
-          ><a href="#" class="dashboard-nav-dropdown-item">New</a>
+          <a [routerLink]="'/users'" class="dashboard-nav-dropdown-item">All</a>
         </div>
       </div>
       <div class="dashboard-nav-dropdown">
-        <a href="" class="dashboard-nav-item dashboard-nav-dropdown-toggle"
-          ><i class="fa fa-money" aria-hidden="true"></i> Payments
+        <a class="dashboard-nav-item dashboard-nav-dropdown-toggle"
+          ><i class="fa fa-brands fa-product-hunt" aria-hidden="true"></i>
+          Product
         </a>
         <div class="dashboard-nav-dropdown-menu">
-          <a href="#" class="dashboard-nav-dropdown-item">All</a
-          ><a href="#" class="dashboard-nav-dropdown-item">Recent</a
-          ><a href="#" class="dashboard-nav-dropdown-item"> Projections</a>
+          <a [routerLink]="'/product'" class="dashboard-nav-dropdown-item"
+            >Products</a
+          >
+          <a [routerLink]="'/category'" class="dashboard-nav-dropdown-item"
+            >Category</a
+          >
         </div>
       </div>
-      <a href="#" class="dashboard-nav-item"
-        ><i class="fa fa-cogs" aria-hidden="true"></i> Settings </a
-      ><a [routerLink]="'/profile'" class="dashboard-nav-item"
+      <a [routerLink]="'/profile'" class="dashboard-nav-item"
         ><i class="fa fa-user" aria-hidden="true"></i> Profile
       </a>
       <div class="nav-item-divider"></div>
@@ -81,6 +65,7 @@
       >
         <i class="fa fa-solid fa-bars"></i>
       </a>
+      <h1 class="top-title">{{ mainTitle || "" }}</h1>
     </header>
     <div class="dashboard-content">
       <div class="container">

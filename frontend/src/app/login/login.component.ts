@@ -40,18 +40,16 @@ export class LoginComponent {
         localStorage.setItem('token', JSON.stringify(user?.data?.token));
         localStorage.setItem('user', JSON.stringify({
           email: user?.data?.email,
-          name: user?.data?.name
+          name: user?.data?.name,
+          role: user?.data?.role,
+          _id: user?.data?._id
         }));
         this.authService.setIsAuthentic(true);
         this.initForm();
         this.router.navigate(['/home']);
-      },
-        (error) => {
-          this.notificationService.showError(error?.error?.message);
-        }
-      )
+      })
     } catch (error: any) {
-      this.notificationService.showError(error?.error?.message || error?.error?.message);
+      this.notificationService.showError('Something went wrong:' + error);
     }
   }
 }

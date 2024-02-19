@@ -1,6 +1,7 @@
 import { Component, ElementRef, Renderer2, ViewChild, AfterViewInit, HostListener } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,8 +15,9 @@ export class DashboardComponent {
   isLogin: boolean = true;
   isDashboardNavShown: boolean = false;
   isMobileScreen: boolean = window.innerWidth <= 990;
+  mainTitle = '';
 
-  constructor(private renderer: Renderer2, private authService: AuthService, private router: Router) {
+  constructor(private renderer: Renderer2, private authService: AuthService, private router: Router, private sharedService: SharedService) {
     this.mobileScreen = window.matchMedia("(max-width: 990px)");
   }
 
@@ -23,6 +25,11 @@ export class DashboardComponent {
     this.authService.isAuthentic$.subscribe(auth => {
       this.isLogin = auth;
     })
+
+    this.sharedService.mainTitle$.subscribe(title => {
+      this.mainTitle = title;
+    })
+
     this.isLogin = localStorage.getItem('token') ? true : false;
   }
 
