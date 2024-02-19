@@ -12,18 +12,28 @@ require('mongoose')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/category');
+var productRouter = require('./routes/product');
+var customerRouter = require('./routes/customer');
+var supplierRouter = require('./routes/supplier');
+var orderRouter = require('./routes/order');
+var orderDetailRouter = require('./routes/orderdetail');
+var WarehouseRouter = require('./routes/warehouse');
+var auditTrailRouter = require('./routes/audittrail');
+var barcodeRouter = require('./routes/barcode');
+var alertsRouter = require('./routes/alerts');
 
 var app = express();
 
 const corsOptions = {
-  origin: ['http://localhost:4200'],
+  origin: 'http://localhost:4200',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 204,
 };
 
 // Enable CORS for all routes
-app.use(cors(corsOptions));
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,6 +48,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/category', categoryRouter);
+app.use('/product', productRouter);
+app.use('/customer', customerRouter);
+app.use('/supplier', supplierRouter);
+app.use('/order', orderRouter);
+app.use('/orderdetail', orderDetailRouter);
+app.use('/warehouse', WarehouseRouter);
+app.use('/audittrail', auditTrailRouter);
+app.use('/barcode', barcodeRouter);
+app.use('/alerts', alertsRouter);
 
 // throw 404 if URL not found
 app.all("*", function (req, res) {

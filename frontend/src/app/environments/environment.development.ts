@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://localhost:3200'
+  apiBaseUrl: 'https://backend--inventory-management-system1.netlify.app'
 };

@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
 
-const categorySchema = new mongoose.Schema({
-    category_name: {
+const warehouseSchema = new mongoose.Schema({
+    warehouse_name: {
         type: String,
         required: true,
-        trim: true,
-        unique: true,
     },
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+    location: {
+        type: String,
         required: true,
+    },
+    is_active: {
+        type: Boolean,
+        default: true,
     },
     created_at: {
         type: Date,
@@ -22,4 +23,4 @@ const categorySchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Category', categorySchema)
+module.exports = mongoose.model('Warehouse', warehouseSchema);

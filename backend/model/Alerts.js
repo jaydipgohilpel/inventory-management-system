@@ -1,15 +1,19 @@
 const mongoose = require('mongoose');
 
-const categorySchema = new mongoose.Schema({
-    category_name: {
-        type: String,
+const alertSchema = new mongoose.Schema({
+    alert_id: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
-        trim: true,
         unique: true,
+        default: mongoose.Types.ObjectId,
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'User',
+        required: true,
+    },
+    message: {
+        type: String,
         required: true,
     },
     created_at: {
@@ -22,4 +26,4 @@ const categorySchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Category', categorySchema)
+module.exports = mongoose.model('Alert', alertSchema);

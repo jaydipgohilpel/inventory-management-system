@@ -18,6 +18,9 @@ import { UsersComponent } from './users/users.component';
 import { MaterialModule } from './material/material.module';
 import { CategoryComponent } from './category/category.component';
 import { DeleteDialogComponent } from 'src/shared/common/delete-dialog/delete-dialog.component';
+import { ProductComponent } from './product/product.component';
+import { IDialogComponent } from 'src/shared/common/i-dialog/i-dialog.component';
+import { AddUpdateProductComponent } from './product/add-update-product/add-update-product.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,8 @@ import { DeleteDialogComponent } from 'src/shared/common/delete-dialog/delete-di
     HomeComponent,
     UsersComponent,
     CategoryComponent,
+    ProductComponent,
+    AddUpdateProductComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +45,8 @@ import { DeleteDialogComponent } from 'src/shared/common/delete-dialog/delete-di
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MaterialModule,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    IDialogComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
