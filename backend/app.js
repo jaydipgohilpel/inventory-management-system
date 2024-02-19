@@ -17,7 +17,7 @@ var productRouter = require('./routes/product');
 var app = express();
 
 const corsOptions = {
-  origin: ['http://localhost:4200','https://localhost:4200'],
+  origin: 'http://localhost:4200',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -25,7 +25,7 @@ const corsOptions = {
 };
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
