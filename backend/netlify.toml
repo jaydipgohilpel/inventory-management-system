@@ -1,0 +1,5 @@
+[[plugins]]
+package = "netlify-plugin-express"
+
+[plugins.inputs]
+functionPath = "functions"
