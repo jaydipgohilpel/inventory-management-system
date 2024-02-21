@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const apiResponse = require("./helpers/apiResponse");
 const cors = require('cors');
+require('dotenv').config();
+
 
 require('./config/config');
 require('mongoose')
@@ -25,7 +27,7 @@ var alertsRouter = require('./routes/alerts');
 var app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:4200',
+  origin: ['https://inventory-management-systemweb.netlify.app', 'http://localhost:4200'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
