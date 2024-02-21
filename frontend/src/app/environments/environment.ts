@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:3200'
+  apiBaseUrl: 'https://inventory-management-system-fz6d.onrender.com'
 };
