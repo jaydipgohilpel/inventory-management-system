@@ -52,12 +52,12 @@ export class AddUpdateProductComponent {
   }
 
   onSaveClick(): void {
-    // if (this.productForm.invalid) return
-    // this.data = {
-    //   ...this.data,
-    //   form: this.productForm,
-    //   component: this.data.component.name
-    // }
+    if (this.productForm.invalid) return
+    this.data = {
+      ...this.data,
+      form: this.productForm,
+      component: this.data.component.name
+    }
     this.dialogRef.close(this.data);
   }
 
