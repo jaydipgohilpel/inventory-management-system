@@ -57,17 +57,28 @@ export class AddUpdateProductComponent {
     this.data = {
       ...this.data,
       form: this.productForm,
-      component: this.data.component.name
+      component: this.data.component?.name
     }
-    this.productsService.addProduct(
-      this.productForm.value,
-    ).subscribe((product) => {
-      if (!product.data) return;
-      const category = this.categories.find(category => category._id === this.productForm?.value?.category_id);
-      product.data.category_name = category?.category_name || '';
-      this.notificationService.showSuccess('Product Added Successfully!');
-      this.dialogRef.close();
-    })
+    if (this.data.isUpdate) {
+      this.productsService.updateProduct(
+        this.data?.data?.element._id as string,
+        this.data.form.value,
+      ).subscribe((product) => {
+        if (!product.data || !product?.data?.modifiedCount) return;
+        this.notificationService.showSuccess('Product Updated Successfully!');
+        this.dialogRef.close(this.data);
+      })
+    }
+    else {
+      this.productsService.addProduct(
+        this.productForm.value,
+      ).subscribe((product) => {
+        if (!product.data) return;
+        this.data.data.element = product?.data
+        this.notificationService.showSuccess('Product Added Successfully!');
+        this.dialogRef.close(this.data);
+      })
+    }
   }
 
   public addCategory() {

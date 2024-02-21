@@ -141,13 +141,13 @@
             Cancel
           </button>
           <button
+            mat-raised-button
             color="primary"
+            cdkFocusInitial
             [disabled]="productForm.invalid"
             (click)="onSaveClick()"
           >
-            <!-- mat-raised-button -->
-            <!-- cdkFocusInitial -->
-            <!-- <mat-icon>save</mat-icon> -->
+            <mat-icon>save</mat-icon>
             Submit
           </button>
         </span>

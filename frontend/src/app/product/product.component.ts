@@ -99,37 +99,24 @@ export class ProductComponent {
 
     if (!result || !result.form.valid) return;
     try {
-      if (element) {
-        this.productsService.updateProduct(
-          element._id as string,
-          result.form.value,
-        ).subscribe((product) => {
-          if (!product.data || !product?.data?.modifiedCount) return;
-
-          const index = this.products.findIndex(product => product._id == element?._id);
-          if (index !== -1) {
-            const category = this.categories.find(category => category._id === result?.form?.value?.category_id);
-            this.products[index] = {
-              ...this.products[index],
-              ...result.form.value,
-              category_name: category?.category_name || ''
-            };
-            this.loadData();
-          }
-          this.notificationService.showSuccess('Product Updated Successfully!');
-        })
+      if (result.isUpdate && element) {
+        const index = this.products.findIndex(product => product._id == element?._id);
+        if (index !== -1) {
+          const category = this.categories.find(category => category._id === result?.form?.value?.category_id);
+          this.products[index] = {
+            ...this.products[index],
+            ...result.form.value,
+            category_name: category?.category_name || ''
+          };
+          this.loadData();
+        }
       }
       else {
-        this.productsService.addProduct(
-          result.form.value,
-        ).subscribe((product) => {
-          if (!product.data) return;
-          const category = this.categories.find(category => category._id === result?.form?.value?.category_id);
-          product.data.category_name = category?.category_name || '';
-          this.products.unshift(product.data);
-          this.loadData();
-          this.notificationService.showSuccess('Product Added Successfully!');
-        })
+        if (!result.data.element) return;
+        const category = this.categories.find(category => category._id === result.form?.value?.category_id);
+        result.data.element.category_name = category?.category_name || '';
+        this.products.unshift(result.data.element);
+        this.loadData();
       }
     } catch (error: any) {
       this.notificationService.showError('Something went wrong:' + error);
