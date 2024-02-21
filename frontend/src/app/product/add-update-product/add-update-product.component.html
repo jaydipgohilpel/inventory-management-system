@@ -1,7 +1,7 @@
 <div class="form">
   <div class="LoginFormContainer">
     <div class="LoginFormInnerContainer">
-      <form [formGroup]="productForm">
+      <form [formGroup]="productForm" (submit)="onSaveClick()">
         <div class="field-container">
           <div class="inputContainer">
             <mat-form-field>
@@ -141,11 +141,10 @@
             Cancel
           </button>
           <button
-          color="primary"
-          [disabled]="productForm.invalid"
-          (click)="onSaveClick()"
+            color="primary"
+            [disabled]="productForm.invalid"
           >
-          <!-- mat-raised-button -->
+            <!-- mat-raised-button -->
             <!-- cdkFocusInitial -->
             <mat-icon>save</mat-icon>
             Submit
