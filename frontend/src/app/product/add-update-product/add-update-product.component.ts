@@ -58,9 +58,7 @@ export class AddUpdateProductComponent {
       form: this.productForm,
       component: this.data.component.name
     }
-    setTimeout(() => {
-      this.dialogRef.close(this.data);
-    }, 100);
+    this.dialogRef.close(this.data);
   }
 
   public addCategory() {
