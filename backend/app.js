@@ -30,7 +30,7 @@ var alertsRouter = require('./routes/alerts');
 var app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:4200',
+  origin: ['https://inventory-management-systemweb3.netlify.app', 'http://localhost:4200'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
