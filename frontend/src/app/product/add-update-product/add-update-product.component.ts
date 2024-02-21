@@ -52,7 +52,6 @@ export class AddUpdateProductComponent {
   }
 
   onSaveClick(): void {
-    if (this.productForm.invalid) return
     this.data = {
       ...this.data,
       form: this.productForm,
