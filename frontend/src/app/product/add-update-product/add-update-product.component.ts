@@ -58,7 +58,6 @@ export class AddUpdateProductComponent {
     this.data = {
       ...this.data,
       form: this.productForm,
-      component: this.constructor.name
     }
     if (this.data.isUpdate) {
       this.productsService.updateProduct(
@@ -68,6 +67,7 @@ export class AddUpdateProductComponent {
         if (!product.data || !product?.data?.modifiedCount) return;
         this.notificationService.showSuccess('Product Updated Successfully!');
         console.log('Product Updated Successfully!');
+        this.data.component = this.constructor.name;
         this.dialogRef.close(this.data);
       })
     }
@@ -79,6 +79,7 @@ export class AddUpdateProductComponent {
         this.data.data.element = product?.data
         this.notificationService.showSuccess('Product Added Successfully!');
         console.log('Product Added Successfully!');
+        this.data.component = this.constructor.name;
         this.dialogRef.close(this.data);
       })
     }
