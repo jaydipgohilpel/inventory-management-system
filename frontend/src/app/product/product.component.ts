@@ -96,7 +96,7 @@ export class ProductComponent {
   }
 
   openSaveChanges(element: null | Product = null, result: IDialogData | any = null): void {
-    debugger
+
     if (!result || !result.form.valid) return;
     try {
       if (element) {
