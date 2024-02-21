@@ -54,10 +54,11 @@ export class AddUpdateProductComponent {
   }
 
   onSaveClick(): void {
+    debugger
     this.data = {
       ...this.data,
       form: this.productForm,
-      component: this.data.component?.name
+      component: this.constructor.name
     }
     if (this.data.isUpdate) {
       this.productsService.updateProduct(
