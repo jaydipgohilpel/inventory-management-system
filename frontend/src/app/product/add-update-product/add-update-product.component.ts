@@ -54,7 +54,6 @@ export class AddUpdateProductComponent {
   }
 
   onSaveClick(): void {
-    debugger
     this.data = {
       ...this.data,
       form: this.productForm,
