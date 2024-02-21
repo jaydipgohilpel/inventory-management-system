@@ -66,6 +66,7 @@ export class AddUpdateProductComponent {
       ).subscribe((product) => {
         if (!product.data || !product?.data?.modifiedCount) return;
         this.notificationService.showSuccess('Product Updated Successfully!');
+        console.log('Product Updated Successfully!');
         this.dialogRef.close(this.data);
       })
     }
@@ -76,6 +77,7 @@ export class AddUpdateProductComponent {
         if (!product.data) return;
         this.data.data.element = product?.data
         this.notificationService.showSuccess('Product Added Successfully!');
+        console.log('Product Added Successfully!');
         this.dialogRef.close(this.data);
       })
     }

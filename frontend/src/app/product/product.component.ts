@@ -96,7 +96,7 @@ export class ProductComponent {
   }
 
   openSaveChanges(element: null | Product = null, result: IDialogData | any = null): void {
-
+    console.log('result',result);
     if (!result || !result.form.valid) return;
     try {
       if (result.isUpdate && element) {
