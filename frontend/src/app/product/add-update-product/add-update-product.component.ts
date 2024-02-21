@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 import { IDialog } from 'src/shared/common/i-dialog/i-dialog.component';
+import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
   selector: 'app-add-update-product',
@@ -20,6 +21,7 @@ export class AddUpdateProductComponent {
     private fb: FormBuilder,
     private router: Router,
     public notificationService: NotificationService,
+    private productsService: ProductsService,
     @Inject(MAT_DIALOG_DATA) public data: ProductDialogData,
   ) {
     if (!data.isUpdate) {
@@ -57,7 +59,15 @@ export class AddUpdateProductComponent {
       form: this.productForm,
       component: this.data.component.name
     }
-    this.dialogRef.close(this.data);
+    this.productsService.addProduct(
+      this.productForm.value,
+    ).subscribe((product) => {
+      if (!product.data) return;
+      const category = this.categories.find(category => category._id === this.productForm?.value?.category_id);
+      product.data.category_name = category?.category_name || '';
+      this.notificationService.showSuccess('Product Added Successfully!');
+      this.dialogRef.close();
+    })
   }
 
   public addCategory() {
