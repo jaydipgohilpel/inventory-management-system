@@ -19,7 +19,7 @@ var productRouter = require('./routes/product');
 var app = express();
 
 const corsOptions = {
-  origin: ['https://inventory-management-systemweb.netlify.app', 'http://localhost:4200'],
+  origin: ['https://inventory-management-systemweb.netlify.app', 'https://dev--inventory-management-systemweb.netlify.app', 'http://localhost:4200'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
