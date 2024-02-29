@@ -1,0 +1,33 @@
+
+MongoDB Query Operators:
+Comparison Operators:
+
+$eq: Matches values that are equal to a specified value.
+$gt: Matches values that are greater than a specified value.
+$lt: Matches values that are less than a specified value.
+$gte: Matches values that are greater than or equal to a specified value.
+$lte: Matches values that are less than or equal to a specified value.
+$ne: Matches all values that are not equal to a specified value.
+$in: Matches any of the values specified in an array.
+$nin: Matches none of the values specified in an array.
+Logical Operators:
+
+$and: Joins query clauses with a logical AND.
+$or: Joins query clauses with a logical OR.
+$not: Inverts the effect of a query expression.
+$nor: Joins query clauses with a logical NOR.
+Element Operators:
+
+$exists: Matches documents that contain the specified field.
+$type: Matches documents where the value of a field is of a specified type.
+Array Operators:
+
+$all: Matches arrays that contain all elements specified in an array.
+$elemMatch: Matches documents that contain an array field with at least one element matching the specified criteria.
+$size: Matches arrays with a specified number of elements.
+Text Search Operators:
+
+$text: Performs text search in a collection.
+Regular Expression Operators:
+
+$regex: Provides regular expression capabilities for pattern matching.
